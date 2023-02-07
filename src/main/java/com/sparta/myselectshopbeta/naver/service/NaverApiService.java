@@ -18,8 +18,8 @@ public class NaverApiService {
     public List<ItemDto> searchItems(String query) {
         RestTemplate rest = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
-        headers.add("X-Naver-Client-Id", "ufC7iCHE1eRqXFSjFmTu");
-        headers.add("X-Naver-Client-Secret", "26mXWwGwvw");
+        headers.add("X-Naver-Client-Id", "0x6DheZj7jbgXRZKWH9h");
+        headers.add("X-Naver-Client-Secret", "10knLNOrLO");
         String body = "";
 
         HttpEntity<String> requestEntity = new HttpEntity<String>(body, headers);
