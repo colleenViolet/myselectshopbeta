@@ -91,3 +91,106 @@ function addHTML(itemDto) {
         </div>
     </div>`
 }
+
+function addProduct(itemDto) {
+    /**
+     * modal 뜨게 하는 법: $('#container').addClass('active');
+     * data를 ajax로 전달할 때는 두 가지가 매우 중요
+     * 1. contentType: "application/json",
+     * 2. data: JSON.stringify(itemDto),
+     */
+    // 1. POST /api/products 에 관심 상품 생성 요청
+    $.ajax({
+        type: "POST",
+        url: '/api/products',
+        contentType: "application/json",
+        data: JSON.stringify(itemDto),
+        success: function (response) {
+            // 2. 응답 함수에서 modal을 뜨게 하고, targetId 를 reponse.id 로 설정
+            $('#container').addClass('active');
+            targetId = response.id;
+        }
+    })
+}
+
+function showProduct() {
+    /**
+     * 관심상품 목록: #product-container
+     * 검색결과 목록: #search-result-box
+     * 관심상품 HTML 만드는 함수: addProductItem
+     */
+
+    // 1. GET /api/products 요청
+    $.ajax({
+        type: 'GET',
+        url: '/api/products',
+        success: function (response) {
+            // 2. 관심상품 목록, 검색결과 목록 비우기
+            $('#product-container').empty();
+            $('#search-result-box').empty();
+            // 3. for 문마다 관심 상품 HTML 만들어서 관심상품 목록에 붙이기!
+            for (let i = 0; i < response.length; i++) {
+                let product = response[i];
+                let tempHtml = addProductItem(product);
+                $('#product-container').append(tempHtml);
+            }
+        }
+    })
+}
+
+function addProductItem(product) {
+    // link, image, title, lprice, myprice 변수 활용하기
+    return `<div class="product-card" onclick="window.location.href='${product.link}'">
+                <div class="card-header">
+                    <img src="${product.image}"
+                         alt="">
+                </div>
+                <div class="card-body">
+                    <div class="title">
+                        ${product.title}
+                    </div>
+                    <div class="lprice">
+                        <span>${numberWithCommas(product.lprice)}</span>원
+                    </div>
+                    <div class="isgood ${product.lprice > product.myprice ? 'none' : ''}">
+                        최저가
+                    </div>
+                </div>
+            </div>`;
+}
+
+function setMyprice() {
+    /**
+     * 1. id가 myprice 인 input 태그에서 값을 가져온다.
+     * 2. 만약 값을 입력하지 않았으면 alert를 띄우고 중단한다.
+     * 3. PUT /api/product/${targetId} 에 data를 전달한다.
+     *    주의) contentType: "application/json",
+     *         data: JSON.stringify({myprice: myprice}),
+     *         빠뜨리지 말 것!
+     * 4. 모달을 종료한다. $('#container').removeClass('active');
+     * 5, 성공적으로 등록되었음을 알리는 alert를 띄운다.
+     * 6. 창을 새로고침한다. window.location.reload();
+     */
+        // 1. id가 myprice 인 input 태그에서 값을 가져온다.
+    let myprice = $('#myprice').val();
+    // 2. 만약 값을 입력하지 않았으면 alert를 띄우고 중단한다.
+    if (myprice == '') {
+        alert('올바른 가격을 입력해주세요');
+        return;
+    }
+    // 3. PUT /api/product/${targetId} 에 data를 전달한다.
+    $.ajax({
+        type: "PUT",
+        url: `/api/products/${targetId}`,
+        contentType: "application/json",
+        data: JSON.stringify({myprice: myprice}),
+        success: function (response) {
+            // 4. 모달을 종료한다. $('#container').removeClass('active');
+            $('#container').removeClass('active');
+            // 5. 성공적으로 등록되었음을 알리는 alert를 띄운다.
+            alert('성공적으로 등록되었습니다.');
+            // 6. 창을 새로고침한다. window.location.reload();
+            window.location.reload();
+        }
+    })
+}
