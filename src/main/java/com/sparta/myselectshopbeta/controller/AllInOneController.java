@@ -1,5 +1,6 @@
 package com.sparta.myselectshopbeta.controller;
 
+import com.sparta.myselectshopbeta.dto.ProductMypriceRequestDto;
 import com.sparta.myselectshopbeta.dto.ProductRequestDto;
 import com.sparta.myselectshopbeta.dto.ProductResponseDto;
 import com.sparta.myselectshopbeta.entity.Product;
