@@ -5,6 +5,7 @@ import com.sparta.myselectshop.dto.ProductRequestDto;
 import com.sparta.myselectshop.dto.ProductResponseDto;
 import com.sparta.myselectshop.entity.Product;
 import com.sparta.myselectshop.repository.ProductRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.sql.SQLException;
@@ -15,8 +16,9 @@ public class ProductService {
 
     private final ProductRepository productRepository;
 
-    public ProductService() {
-        this.productRepository = new ProductRepository();
+    @Autowired
+    public ProductService(ProductRepository productRepository) {
+        this.productRepository = productRepository;
     }
 
     public ProductResponseDto createProduct(ProductRequestDto requestDto) throws SQLException {

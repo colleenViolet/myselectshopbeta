@@ -4,6 +4,7 @@ import com.sparta.myselectshop.dto.ProductMypriceRequestDto;
 import com.sparta.myselectshop.dto.ProductRequestDto;
 import com.sparta.myselectshop.dto.ProductResponseDto;
 import com.sparta.myselectshop.service.ProductService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.SQLException;
@@ -15,8 +16,9 @@ public class ProductController {
 
     private final ProductService productService;
 
-    public ProductController() {
-        this.productService =  new ProductService();
+    @Autowired
+    public ProductController(ProductService productService) {
+        this.productService =  productService;
     }
 
     // 관심 상품 등록하기
