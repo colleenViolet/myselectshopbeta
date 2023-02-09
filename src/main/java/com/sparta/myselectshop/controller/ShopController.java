@@ -11,6 +11,8 @@ public class ShopController {
 
     @GetMapping("/shop")
     public ModelAndView shop() {
-        return new ModelAndView("index");
+        ModelAndView modelAndView = new ModelAndView("index");
+        modelAndView.addObject("username","");
+        return modelAndView;
     }
 }
