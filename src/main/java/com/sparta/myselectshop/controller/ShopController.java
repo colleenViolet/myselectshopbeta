@@ -1,4 +1,4 @@
-package com.sparta.myselectshopbeta.controller;
+package com.sparta.myselectshop.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

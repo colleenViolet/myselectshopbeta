@@ -1,4 +1,4 @@
-package com.sparta.myselectshopbeta.naver.dto;
+package com.sparta.myselectshop.naver.dto;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

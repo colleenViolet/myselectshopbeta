@@ -1,6 +1,6 @@
-package com.sparta.myselectshopbeta.entity;
+package com.sparta.myselectshop.entity;
 
-import com.sparta.myselectshopbeta.dto.ProductRequestDto;
+import com.sparta.myselectshop.dto.ProductRequestDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
