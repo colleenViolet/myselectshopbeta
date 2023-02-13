@@ -1,6 +1,18 @@
 let targetId;
 
 $(document).ready(function () {
+    // cookie 여부 확인하여 로그인 확인
+    const auth = getToken();
+
+    if(auth !== '') {
+        $('#username').text('수강생');
+        $('#login-true').show();
+        $('#login-false').hide();
+    } else {
+        $('#login-false').show();
+        $('#login-true').hide();
+    }
+
     // id 가 query 인 녀석 위에서 엔터를 누르면 execSearch() 함수를 실행하라는 뜻입니다.
     $('#query').on('keypress', function (e) {
         if (e.key == 'Enter') {
@@ -193,4 +205,25 @@ function setMyprice() {
             window.location.reload();
         }
     })
+}
+
+function logout() {
+    // 토큰 값 ''으로 덮어쓰기
+    document.cookie =
+        'Authorization' + '=' + '' + ';path=/';
+    window.location.reload();
+}
+
+function  getToken() {
+    let cName = 'Authorization' + '=';
+    let cookieData = document.cookie;
+    let cookie = cookieData.indexOf('Authorization');
+    let auth = '';
+    if(cookie !== -1){
+        cookie += cName.length;
+        let end = cookieData.indexOf(';', cookie);
+        if(end === -1)end = cookieData.length;
+        auth = cookieData.substring(cookie, end);
+    }
+    return auth;
 }
