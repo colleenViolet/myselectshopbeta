@@ -137,28 +137,42 @@ function showProduct() {
      * 검색결과 목록: #search-result-box
      * 관심상품 HTML 만드는 함수: addProductItem
      */
-
     const auth = getToken();
 
-    // 1. GET /api/products 요청
-    $.ajax({
-        type: 'GET',
-        url: '/api/products',
-        beforeSend: function (xhr) {
-            xhr.setRequestHeader("Authorization", auth);
+    var sorting = $("#sorting option:selected").val();
+    var isAsc = $(':radio[name="isAsc"]:checked').val();
+
+    $('#product-container').empty();
+    $('#search-result-box').empty();
+    $('#pagination').pagination({
+        dataSource: `/api/products?sortBy=${sorting}&isAsc=${isAsc}`,
+        locator: 'content',
+        alias: {
+            pageNumber: 'page',
+            pageSize: 'size'
         },
-        success: function (response) {
-            // 2. 관심상품 목록, 검색결과 목록 비우기
+        totalNumberLocator: (response) => {
+            return response.totalElements;
+        },
+        pageSize: 10,
+        showPrevious: true,
+        showNext: true,
+        ajax: {
+            beforeSend: function(xhr) {
+                xhr.setRequestHeader("Authorization", auth);
+                $('#product-container').html('상품 불러오는 중...');
+            }
+        },
+        callback: function(data, pagination) {
+            console.log(data);
             $('#product-container').empty();
-            $('#search-result-box').empty();
-            // 3. for 문마다 관심 상품 HTML 만들어서 관심상품 목록에 붙이기!
-            for (let i = 0; i < response.length; i++) {
-                let product = response[i];
+            for (let i = 0; i < data.length; i++) {
+                let product = data[i];
                 let tempHtml = addProductItem(product);
                 $('#product-container').append(tempHtml);
             }
         }
-    })
+    });
 }
 
 function addProductItem(product) {

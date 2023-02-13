@@ -1,13 +1,19 @@
 <!doctype html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap" rel="stylesheet">
     <link th:href="@{/style.css}" rel="stylesheet">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/paginationjs/2.1.4/pagination.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/paginationjs/2.1.4/pagination.css"/>
+
+
     <script type="text/javascript" th:src="@{/basic.js}"></script>
     <title>나만의 셀렉샵</title>
 </head>
@@ -48,46 +54,26 @@
     </div>
 </div>
 <div id="see-area">
-    <div id="product-container">
-        <div class="product-card" onclick="window.location.href='https://spartacodingclub.kr'">
-            <div class="card-header">
-                <img src="https://shopping-phinf.pstatic.net/main_2085830/20858302247.20200602150427.jpg?type=f300"
-                     alt="">
-            </div>
-            <div class="card-body">
-                <div class="title">
-                    Apple 아이폰 11 128GB [자급제]
-                </div>
-                <div class="lprice">
-                    <span>919,990</span>원
-                </div>
-                <div class="isgood">
-                    최저가
-                </div>
-            </div>
-        </div>
+    <div class="pagination">
+        정렬:
+        <select id="sorting" onchange="showProduct()">
+            <option value="id">ID</option>
+            <option value="title">상품명</option>
+            <option value="lprice">최저가</option>
+        </select>
+        <input type="radio" name="isAsc" value="true" onchange="showProduct()" checked /> 오름차순
+        <input type="radio" name="isAsc" value="false" onchange="showProduct()" /> 내림차순
     </div>
+    <div id="pagination" class="pagination"></div>
+    <ul id="product-container">
+    </ul>
 </div>
 <div id="search-area">
     <div>
         <input type="text" id="query">
     </div>
     <div id="search-result-box">
-        <div class="search-itemDto">
-            <div class="search-itemDto-left">
-                <img src="https://shopping-phinf.pstatic.net/main_2399616/23996167522.20200922132620.jpg?type=f300" alt="">
-            </div>
-            <div class="search-itemDto-center">
-                <div>Apple 아이맥 27형 2020년형 (MXWT2KH/A)</div>
-                <div class="price">
-                    2,289,780
-                    <span class="unit">원</span>
-                </div>
-            </div>
-            <div class="search-itemDto-right">
-                <img src="/images/icon-save.png" alt="" onclick='addProduct()'>
-            </div>
-        </div>
+
     </div>
     <div id="container" class="popup-container">
         <div class="popup">
